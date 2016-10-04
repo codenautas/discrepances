@@ -19,6 +19,8 @@ describe("discrepances", function(){
         {a:{x:1, y:2, z:[3]} , b:{x:1, y:2, z:[3]}  , expect: null                                                                      },
         {a:"un string"       , b:"un string"        , expect: null                                                                      },
         {a:"un negro pez"    , b:"un blanco pez"    , expect: {difference: {left:'negro', right:'blanco', pos:3}}                        },
+        {a:"un pez negro"    , b:"un pez blanco"    , expect: {difference: {left:'negro', right:'blanco', pos:7}}                        },
+        {a:"negro el ocho"    , b:"rojo el ocho"    , expect: {difference: {left:'negro', right:'rojo', pos:0}}                        },
         {skip:true, a:new Date(2011,1,3), b:new Date(2011,1,4) , expect: {difference:'a definir', values:[new Date(2011,1,3), new Date(2011,1,4)] }},
         {skip:true, a: new Date(1992,11,5)       , b:new Date(1935,8,1)         , expect:'1992-12-05 != 1935-09-01'},
         {skip:true, a: new Date(1992,11,5,10,0,0), b:new Date(1935,8,1,15,0,0)  , expect:'1992-12-05 10:00:00 != 1935-09-01 15:00:00'},
