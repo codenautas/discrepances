@@ -57,8 +57,8 @@ describe("discrepances", function(){
     });
     fixtures.forEach(function(fixture){
         if(fixture.skip) {
+            it('skipped: '+JSON.stringify(fixture.skip)+' '+JSON.stringify(fixture));
             delete fixture.skip;
-            it('skipped fixture: '+JSON.stringify(fixture));
             return true;
         }
         it("fixture: "+JSON.stringify(fixture), function(){
