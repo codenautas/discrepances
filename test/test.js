@@ -7,7 +7,7 @@ var discrepances = require('../lib/discrepances.js');
 describe("discrepances", function(){
     [
         {a:4                 , b:4                  , expected: null                                                                      },
-        {skip:true, a:4                 , b:5                  , expected: {difference:-1             , values:[4, 5]                               }},
+        {a:4                 , b:5                  , expected: {difference:-1             , values:[4, 5]                               }},
         {skip:true, a:"4"               , b:4                  , expected: {types:['string', 'number'], values:["4", 4]                             }},
         {skip:true, a:null              , b:0                  , expected: {types:['null'  , 'number'], values:[null, 0]                            }},
         {skip:true, a:new Date()        , b:/a/                , expected: {class:['Date'  , 'RegExp'], values:[new Date(), /a/]                    }},
@@ -17,13 +17,14 @@ describe("discrepances", function(){
         {skip:true, a:{x:1, y:2, z:[3]} , b:{x:1, y:2, z:[3]}  , expected: null                                                                      },
     ].forEach(function(fixture){
         if(fixture.skip) {
+            delete fixture.skip;
             it('skipped fixture: '+JSON.stringify(fixture));
             return true;
         }
-        it("controls discrepances via fixture: "+JSON.stringify(fixture), function(){
+        it("fixture: "+JSON.stringify(fixture), function(){
             expect(discrepances(fixture.a, fixture.b)).to.eql(fixture.expected);
-            expect(JSON.stringify(discrepances(fixture.a, fixture.structure))).to.eql(JSON.stringify(fixture.expected));
-            expect(JSON4all.stringify(discrepances(fixture.a, fixture.structure))).to.eql(JSON4all.stringify(fixture.expected));
+            expect(JSON.stringify(discrepances(fixture.a, fixture.b))).to.eql(JSON.stringify(fixture.expected));
+            expect(JSON4all.stringify(discrepances(fixture.a, fixture.b))).to.eql(JSON4all.stringify(fixture.expected));
         });
     });
 });
