@@ -21,6 +21,21 @@ describe("discrepances", function(){
         {a:"un negro pez"        , b:"un blanco pez"    , expect: {differences: ['negro', 'blanco', {pos:3}], values:["un negro pez", "un blanco pez"]}        },
         {a:"un pez negro"        , b:"un pez blanco"    , expect: {differences: ['negro', 'blanco', {pos:7}], values:["un pez negro", "un pez blanco"]}                        },
         {a:"negro el ocho"       , b:"rojo el ocho"     , expect: {differences: ['negro', 'rojo'  , {pos:0}], values:["negro el ocho", "rojo el ocho"]}                        },
+        {a:null                  , b:undefined          , expect: {types:['null', 'undefined'], values:[null, undefined]                   }},
+        {skip:'no va values porque uno de los dos parámetros no es un valor simple', a:{a:7, b:[]}           , b:fechaActual        , expect: {classes:['Object', 'Date']                                              }},
+        {skip:'tampoco  va values porque uno de los dos parámetros no es un valor simple', a:{a:7, b:[]}           , b:"one string"       , expect: {types:['object', 'string']                                              }},
+        {skip:'problema con la recursión, no detecta la diferencia en e',
+            a:{x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}, 
+            b:{x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]}, 
+            expect: {
+                object: {
+                    d: { difference: -40, values: [4, 44]},
+                    e: { array:{ object:{
+                        m:{array:{length: discrepances(1,2)}}
+                    }}}
+                }
+            }
+        },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
