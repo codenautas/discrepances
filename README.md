@@ -1,5 +1,7 @@
 # discrepances
-show discrepances in several flavors
+Shows discrepances between different values
+
+
 
 # Install
 ```sh

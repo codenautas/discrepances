@@ -1,6 +1,13 @@
 <!--multilang v0 es:LEEME.md en:README.md -->
 # discrepances
-show discrepances in several flavors
+<!--lang:es-->
+Muestra las diferencias entre distintos tipos de valores
+
+<!--lang:en--]
+Shows discrepances between different values
+
+[!--lang:*-->
+
 
 <!--lang:es-->
 # Instalación
