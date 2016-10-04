@@ -14,6 +14,7 @@ module.exports = function(config, preConfig) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/require-bro/lib/require-bro.js',
+      'node_modules/best-globals/best-globals.js',
       'node_modules/json4all/json4all.js',
       'lib/*.js',
       'test/*.js'
