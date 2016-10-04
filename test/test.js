@@ -7,7 +7,7 @@ var discrepances = require('../lib/discrepances.js');
 var fechaActual = new Date();
 
 describe("discrepances", function(){
-    [
+    var fixtures = [
         {a:4                     , b:4                  , expect: null                                                                      },
         {a:4                     , b:5                  , expect: {difference:-1             , values:[4, 5]                               }},
         {a:"4"                   , b:4                  , expect: {types:['string', 'number'], values:["4", 4]                             }},
@@ -21,15 +21,24 @@ describe("discrepances", function(){
         {a:"un negro pez"        , b:"un blanco pez"    , expect: {differences: ['negro', 'blanco', {pos:3}], values:["un negro pez", "un blanco pez"]}        },
         {a:"un pez negro"        , b:"un pez blanco"    , expect: {differences: ['negro', 'blanco', {pos:7}], values:["un pez negro", "un pez blanco"]}                        },
         {a:"negro el ocho"       , b:"rojo el ocho"     , expect: {differences: ['negro', 'rojo'  , {pos:0}], values:["negro el ocho", "rojo el ocho"]}                        },
-        {a:fechaActual           , b:fechaActual        , expect: null                        },
-        {a:new Date(2011,1,3), b:new Date(2011,1,4) , expect: {difference:'2011-02-03 != 2011-02-04', values:[new Date(2011,1,3), new Date(2011,1,4)] }},
-        {skip:true, a: new Date(1992,11,5)       , b:new Date(1935,8,1)         , expect:'1992-12-05 != 1935-09-01'},
-        {skip:true, a: new Date(1992,11,5,10,0,0), b:new Date(1935,8,1,15,0,0)  , expect:'1992-12-05 10:00:00 != 1935-09-01 15:00:00'},
-        {skip:true, a: new Date(1992,11,5,15,0,0), b:new Date(1992,11,5,10,10,0), expect:'04:50:00'},
-        {skip:true, a: new Date(1992,11,5,0,0,0),  b:new Date(1992,11,6,15,25,0), expect:'1992-12-05 00:00:00 != 1992-12-06 15:25:00 => -39:25:00'},
-        {skip:true, a: new Date(1992,11,5,0,0,0,100),  b:new Date(1992,11,6,15,25,0,200), expect:'1992-12-05 00:00:00.100 != 1992-12-06 15:25:00.200 => -39:25:00.100'},
-        {skip:true, a: new Date(1462670136585+100250), b:new Date(1462670136585), expect:'00:01:40.250'},
-    ].forEach(function(fixture){
+    ];
+    var dateFixtures = [
+        {           a:fechaActual                    , b:fechaActual                        , difference: null                        },
+        {           a:new Date(2011,1,3)             , b:new Date(2011,1,4)                 , difference:'2011-02-03 != 2011-02-04'     },
+        {skip:true, a: new Date(1992,11,5)           , b:new Date(1935,8,1)         , difference:'1992-12-05 != 1935-09-01'},
+        {skip:true, a: new Date(1992,11,5,10,0,0)    , b:new Date(1935,8,1,15,0,0)  , difference:'1992-12-05 10:00:00 != 1935-09-01 15:00:00'},
+        {skip:true, a: new Date(1992,11,5,15,0,0)    , b:new Date(1992,11,5,10,10,0), difference:'04:50:00'},
+        {skip:true, a: new Date(1992,11,5,0,0,0)     , b:new Date(1992,11,6,15,25,0), difference:'1992-12-05 00:00:00 != 1992-12-06 15:25:00 => -39:25:00'},
+        {skip:true, a: new Date(1992,11,5,0,0,0,100) , b:new Date(1992,11,6,15,25,0,200), difference:'1992-12-05 00:00:00.100 != 1992-12-06 15:25:00.200 => -39:25:00.100'},
+        {skip:true, a: new Date(1462670136585+100250), b:new Date(1462670136585), difference:'00:01:40.250'},
+    ];
+    dateFixtures.forEach(function(fixture) {
+        fixtures.push({
+            skip: fixture.skip, a: fixture.a, b: fixture.b,
+            expect: (fixture.difference ? {difference: fixture.difference, values:[fixture.a, fixture.b]} : null)
+        });
+    });
+    fixtures.forEach(function(fixture){
         if(fixture.skip) {
             delete fixture.skip;
             it('skipped fixture: '+JSON.stringify(fixture));
