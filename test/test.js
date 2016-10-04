@@ -1,6 +1,6 @@
 "use strict";
 
-var JSON4all = require('json4all.js');
+var JSON4all = require('json4all');
 var expect = require('expect.js');
 var discrepances = require('../lib/discrepances.js');
 
