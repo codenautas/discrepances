@@ -25,7 +25,7 @@ describe("discrepances", function(){
             return true;
         }
         it("fixture: "+JSON.stringify(fixture), function(){
-            //console.log("RES", discrepances(fixture.a, fixture.b)); console.log("EXP", fixture.expected);
+            //console.log("RES", JSON4all.stringify(discrepances(fixture.a, fixture.b))); console.log("EXP", JSON4all.stringify(fixture.expected));
             expect(discrepances(fixture.a, fixture.b)).to.eql(fixture.expected);
             expect(JSON.stringify(discrepances(fixture.a, fixture.b))).to.eql(JSON.stringify(fixture.expected));
             expect(JSON4all.stringify(discrepances(fixture.a, fixture.b))).to.eql(JSON4all.stringify(fixture.expected));

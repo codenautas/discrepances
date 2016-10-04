@@ -59,6 +59,7 @@
     "test-cli": "node server/karma-server.js --karma karma.conf.js --single-run",
     "test-cli-h": "node server/karma-server.js --karma karma.conf.js",
     "test-cli-ff": "npm run test-cli -- --browsers Firefox",
+    "test-cli-saf": "npm run test-cli -- --browsers Safari",
     "report": "istanbul report"
   },
   "qa-control": {
