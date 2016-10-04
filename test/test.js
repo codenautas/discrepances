@@ -14,7 +14,7 @@ describe("discrepances", function(){
         {a:null              , b:0                  , expected: {types:['null'  , 'number'], values:[null, 0]                            }},
         {a:fechaActual       , b:/a/                , expected: {classes:['Date'  , 'RegExp'], values:[fechaActual, /a/]                    }},
         {skip:true, a:new Date(2011,1,3), b:new Date(2011,1,4) , expected: {difference:'a definir', values:[new Date(2011,1,3), new Date(2011,1,4)] }},
-        {skip:true, a:[1,2,3,4,5]       , b:[1,2,33,4,5,6]     , expected: {array:{length:discrepances(5,6), 2:discrepances(3,33)}                  }},
+        {a:[1,2,3,4,5]       , b:[1,2,33,4,5,6]     , expected: {array:{length:discrepances(5,6), 2:discrepances(3,33)}                  }},
         {skip:true, a:{x:1, y:2}        , b:{y:3, z:{zz:3}}    , expected: {object:{x:{onlyLeft:1}, y:discrepances(2,3), z:{onlyRight:{zz:3}}}      }},
         {skip:true, a:{x:1, y:2, z:[3]} , b:{x:1, y:2, z:[3]}  , expected: null                                                                      },
     ].forEach(function(fixture){
