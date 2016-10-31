@@ -44,12 +44,17 @@ describe("discrepances", function(){
                 }
             }
         },
-        {a: ["one"]              , b: ["one",2]         , expect:{array:{length:discrepances(1,2)}} },
-        {a: undefined            , b:1                  , expect:{types:['undefined'  , 'number'], values:[undefined, 1]   }},
-        {a: new Example({uno:1}), b: new Example({uno:1}), expect: null },
-        {a: new Example({uno:1}), b: {uno:1}            , expect: {classes:['Example', 'Object'] } },
-        {a: new Example({uno:1}), b: new Example({uno:2}), expect: {"object":{"uno":{"difference":-1,"values":[1,2]}}} },
-        {a: {0:1, length:1}      , b: {0:1,1:2,length:2}, expect:{object:{"1":{onlyRight:2}, length:discrepances(1,2)}}},
+        {a: ["one"]                         , b: ["one",2]                      , expect:{array:{length:discrepances(1,2)}} },
+        {a: undefined                       , b:1                               , expect:{types:['undefined'  , 'number'], values:[undefined, 1]   }},
+        {a: undefined                       , b:false                           , expect:{types:['undefined'  , 'boolean'], values:[undefined, false]   }},
+        {a: new Example({uno:1})            , b: new Example({uno:1})           , expect: null },
+        {a: new Example({uno:1})            , b: {uno:1}                        , expect: {classes:['Example', 'Object'] } },
+        {a: new Example({uno:1})            , b: new Example({uno:2})           , expect: {"object":{"uno":{"difference":-1,"values":[1,2]}}} },
+        {a: {0:1, length:1}                 , b: {0:1,1:2,length:2}             , expect:{object:{"1":{onlyRight:2}, length:discrepances(1,2)}}},
+        // {a: {last:'Simpson', name:'Bart'}   , b:{last:'Simpson', name:'Lisa'}   , expect:'.name: "Bart" != "Lisa"'},
+        // {a: {name:'Hommer', last:'Simpson'} , b:{last:'Simpson', name:'Hommer'} , expect:'{0}: .name != .last\n...', expectBigDif:null},
+        // {a: {name:'Hommer', age:40}         , b:{name:'Hommer'}                 , expect:'{1}: .age != undefined', expectBigDif:'.age: 40 != undefined'},
+        // {a: {name:'Hommer'}                 , b:{name:'Hommer', age:40}         , expect:'{1}: undefined != .age', expectBigDif:'.age: undefined != 40'},
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
