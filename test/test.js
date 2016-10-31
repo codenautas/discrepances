@@ -38,6 +38,7 @@ describe("discrepances", function(){
             }
         },
         {a: ["one"]              , b: ["one",2]         , expect:{array:{length:discrepances(1,2)}}},
+        {a: {0:1, length:1}      , b: {0:1,1:2,length:2}, expect:{object:{"1":{onlyRight:2}, length:discrepances(1,2)}}},
         //{a: undefined            , b:1                  , expect:{'undefined != 1'}, skip:true              }}},
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
