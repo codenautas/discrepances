@@ -28,7 +28,7 @@ describe("discrepances", function(){
         {a:"un string"           , b:"un string"        , expect: null                                                                      },
         {a:"un negro pez"        , b:"un blanco pez"    , expect: {differences: ['negro', 'blanco', {pos:3}], values:["un negro pez", "un blanco pez"]}        },
         {a:"un pez negro"        , b:"un pez blanco"    , expect: {differences: ['negro', 'blanco', {pos:7}], values:["un pez negro", "un pez blanco"]}                        },
-        {a:"negro el ocho"       , b:"rojo el ocho"     , expect: {differences: ['negro', 'rojo'  , {pos:0}], values:["negro el ocho", "rojo el ocho"]}                        },
+        {a:"negro el ocho"       , b:"rojo el ocho"     , expect: {differences: ['negro', 'rojo'  , {pos:0}], values:["negro el ocho", "rojo el ocho"]},                        },
         {a:null                  , b:undefined          , expect: {types:['null', 'undefined'], values:[null, undefined]                   }},
         {a:{a:7, b:[]}           , b:fechaActual        , expect: {classes:['Object', 'Date']                                              }},
         {a:{a:7, b:[]}           , b:"one string"       , expect: {types:['object', 'string']                                              }},
@@ -50,10 +50,10 @@ describe("discrepances", function(){
         {a: new Example({uno:1})            , b: new Example({uno:1})           , expect: null },
         {a: new Example({uno:1})            , b: {uno:1}                        , expect: {classes:['Example', 'Object'] } },
         {a: new Example({uno:1})            , b: new Example({uno:2})           , expect: {"object":{"uno":{"difference":-1,"values":[1,2]}}} },
-        {a: {0:1, length:1}                 , b: {0:1,1:2,length:2}             , expect:{object:{"1":{onlyRight:2}, length:discrepances(1,2)}}},
-        {a: {last:'Simpson', name:'Bart'}   , b:{last:'Simpson', name:'Lisa'}   , expect:{"object":{"name":{"differences":["Bart","Lisa",{"pos":0}],"values":["Bart","Lisa"]}}}},
-        // Emilio: confirmar que esto es correcto
-        {a: {name:'Hommer', last:'Simpson'} , b:{last:'Simpson', name:'Hommer'} , expect:null},
+        {a: {0:1, length:1}                 , b: {0:1,1:2,length:2}             , expect:{object:{1:{onlyRight:2}, length:discrepances(1,2)}}},
+        {a: {last:'Simpson', name:'Bart'}   , b:{last:'Simpson', name:'Lisa'}   , expect:{"object":{"name":discrepances("Bart","Lisa")}} },
+        {a: {name:'Hommer', last:'Simpson'} , b:{last:'Simpson', name:'Hommer'} , expect:null, opts:{unordered:true}},
+        //{a: {name:'Hommer', last:'Simpson'} , b:{last:'Simpson', name:'Hommer'} , expect:{differences:} },
         {a: {name:'Hommer', age:40}         , b:{name:'Hommer'}                 , expect:{"object":{"age":{"onlyLeft":40}}}},
         {a: {name:'Hommer'}                 , b:{name:'Hommer', age:40}         , expect:{"object":{"age":{"onlyRight":40}}}},
     ];
@@ -84,7 +84,7 @@ describe("discrepances", function(){
         it("fixture: "+(fixture.isDate?'Date: ':'')+JSON.stringify(fixture), function(){
             var expJ = JSON.stringify(fixture.expect);
             var expJA = JSON4all.stringify(fixture.expect);
-            var res = discrepances(fixture.a, fixture.b);
+            var res = discrepances(fixture.a, fixture.b, fixture.opts);
             var resJ = JSON.stringify(res);
             var resJA = JSON4all.stringify(res);
             if(resJA !== expJA) { console.log("RES", resJA); console.log("EXP", expJA); }
