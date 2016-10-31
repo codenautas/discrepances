@@ -49,7 +49,7 @@ describe("discrepances", function(){
         {a: undefined                       , b:false                           , expect:{types:['undefined'  , 'boolean'], values:[undefined, false]   }},
         {a: new Example({uno:1})            , b: new Example({uno:1})           , expect: null },
         {a: new Example({uno:1})            , b: {uno:1}                        , expect: {classes:['Example', 'Object'] } },
-        {a: new Example({uno:1})            , b: new Example({uno:2})           , expect: {"object":{"uno":{"difference":-1,"values":[1,2]}}} },
+        {a: new Example({uno:1})            , b: new Example({uno:2})           , expect: {"object":{"uno":discrepances(1,2)}} },
         {a: {0:1, length:1}                 , b: {0:1,1:2,length:2}             , expect:{object:{1:{onlyRight:2}, length:discrepances(1,2)}}},
         {a: {last:'Simpson', name:'Bart'}   , b:{last:'Simpson', name:'Lisa'}   , expect:{"object":{"name":discrepances("Bart","Lisa")}} },
         {a: {name:'Hommer', last:'Simpson'} , b:{last:'Simpson', name:'Hommer'} , expect:null, opts:{unordered:true}},
