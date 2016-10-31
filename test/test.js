@@ -62,11 +62,15 @@ describe("discrepances", function(){
             return true;
         }
         it("fixture: "+JSON.stringify(fixture), function(){
-            // console.log("RES", JSON4all.stringify(discrepances(fixture.a, fixture.b)));
-            // console.log("EXP", JSON4all.stringify(fixture.expect));
-            expect(discrepances(fixture.a, fixture.b)).to.eql(fixture.expect);
-            expect(JSON.stringify(discrepances(fixture.a, fixture.b))).to.eql(JSON.stringify(fixture.expect));
-            expect(JSON4all.stringify(discrepances(fixture.a, fixture.b))).to.eql(JSON4all.stringify(fixture.expect));
+            var expJ = JSON.stringify(fixture.expect);
+            var expJA = JSON4all.stringify(fixture.expect);
+            var res = discrepances(fixture.a, fixture.b);
+            var resJ = JSON.stringify(res);
+            var resJA = JSON4all.stringify(res);
+            // console.log("RES", resJA); console.log("EXP", expJA);
+            expect(res).to.eql(fixture.expect);
+            expect(resJ).to.eql(expJ);
+            expect(resJA).to.eql(expJA);
         });
     });
 });
