@@ -51,6 +51,7 @@ describe("discrepances", function(){
     ];
     dateFixtures.forEach(function(fixture) {
         fixtures.push({
+            isDate:true,
             skip: fixture.skip, a: fixture.a, b: fixture.b,
             expect: (fixture.difference ? {difference: fixture.difference, values:[fixture.a, fixture.b]} : null)
         });
@@ -61,7 +62,7 @@ describe("discrepances", function(){
             delete fixture.skip;
             return true;
         }
-        it("fixture: "+JSON.stringify(fixture), function(){
+        it("fixture: "+(fixture.isDate?'Date: ':'')+JSON.stringify(fixture), function(){
             var expJ = JSON.stringify(fixture.expect);
             var expJA = JSON4all.stringify(fixture.expect);
             var res = discrepances(fixture.a, fixture.b);
