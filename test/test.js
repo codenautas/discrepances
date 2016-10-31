@@ -25,14 +25,14 @@ describe("discrepances", function(){
         {a:null                  , b:undefined          , expect: {types:['null', 'undefined'], values:[null, undefined]                   }},
         {a:{a:7, b:[]}           , b:fechaActual        , expect: {classes:['Object', 'Date']                                              }},
         {a:{a:7, b:[]}           , b:"one string"       , expect: {types:['object', 'string']                                              }},
-        {skip:'problema con la recursión, no detecta la diferencia en e',
+        {//skip:'problema con la recursión, no detecta la diferencia en e',
             a:{x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}, 
             b:{x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]}, 
             expect: {
                 object: {
                     d: { difference: -40, values: [4, 44]},
                     e: { array:{ object:{
-                        m:{array:{length: discrepances(1,2)}}
+                        m:{array:{length: discrepances(2,1)}}
                     }}}
                 }
             }
@@ -67,7 +67,7 @@ describe("discrepances", function(){
             var res = discrepances(fixture.a, fixture.b);
             var resJ = JSON.stringify(res);
             var resJA = JSON4all.stringify(res);
-            // console.log("RES", resJA); console.log("EXP", expJA);
+            if(resJA !== expJA) { console.log("RES", resJA); console.log("EXP", expJA); }
             expect(res).to.eql(fixture.expect);
             expect(resJ).to.eql(expJ);
             expect(resJA).to.eql(expJA);
