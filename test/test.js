@@ -25,7 +25,7 @@ describe("discrepances", function(){
         {a:null                  , b:undefined          , expect: {types:['null', 'undefined'], values:[null, undefined]                   }},
         {a:{a:7, b:[]}           , b:fechaActual        , expect: {classes:['Object', 'Date']                                              }},
         {a:{a:7, b:[]}           , b:"one string"       , expect: {types:['object', 'string']                                              }},
-        {//skip:'problema con la recursión, no detecta la diferencia en e',
+        {
             a:{x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}, 
             b:{x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]}, 
             expect: {
@@ -37,6 +37,8 @@ describe("discrepances", function(){
                 }
             }
         },
+        {a: ["one"]              , b: ["one",2]         , expect:{array:{length:discrepances(1,2)}}},
+        //{a: undefined            , b:1                  , expect:{'undefined != 1'}, skip:true              }}},
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
