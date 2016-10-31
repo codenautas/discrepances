@@ -6,6 +6,13 @@ var discrepances = require('../lib/discrepances.js');
 
 var fechaActual = new Date();
 
+function Example(ini){
+    for(var name in ini){
+        this[name]=ini[name];
+    }
+}
+Example.prototype.protoFunction = function(){};
+
 describe("discrepances", function(){
     var fixtures = [
         {a:4                     , b:4                  , expect: null                                                                      },
@@ -37,8 +44,11 @@ describe("discrepances", function(){
                 }
             }
         },
-        {a: ["one"]              , b: ["one",2]         , expect:{array:{length:discrepances(1,2)}}},
-        //{a: undefined            , b:1                  , expect:{'undefined != 1'}, skip:true              }}},
+        {a: ["one"]              , b: ["one",2]         , expect:{array:{length:discrepances(1,2)}} },
+        {a: undefined            , b:1                  , expect:{types:['undefined'  , 'number'], values:[undefined, 1]   }},
+        {a: new Example({uno:1}), b: new Example({uno:1}), expect: null },
+        {a: new Example({uno:1}), b: {uno:1}            , expect: {classes:['Example', 'Object'] } },
+
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
