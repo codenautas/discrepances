@@ -76,6 +76,7 @@ describe("discrepances", function(){
         },
         {a: {name:'Hommer', age:40}         , b:{name:'Hommer'}                 , expect:{object:{"age":{"onlyLeft":40}}}                                   },
         {a: {name:'Hommer'}                 , b:{name:'Hommer', age:40}         , expect:{object:{"age":{"onlyRight":40}}}                                  },
+        {a: [{a:'A', b:'B', c:'C'}]         , b:[{a:'a', b:'B', c:'C'}]         , expect:{array:{object:{a:discrepances('A','a')} }}                        },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
