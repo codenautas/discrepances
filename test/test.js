@@ -58,9 +58,10 @@ describe("discrepances", function(){
             b:{two:'dos', one:'un'},
             expect:{
                 object:{
-                    differences:[0,1],
-                    keys:[['one','two'] , ['two','one']],
-                    values:[discrepances('un','dos'), discrepances('dos','un')]
+                    differences:[
+                        {pos:0, keys:['one','two'], values:discrepances('un','dos')},
+                        {pos:1, keys:['two','one'], values:discrepances('dos','un')},
+                    ]
                 }
             },
             opts:{unordered:false}
@@ -69,14 +70,26 @@ describe("discrepances", function(){
             b:{one:'un', zwei:'dos'},
             expect:{
                 object:{
-                    differences:[1],
-                    keys:[['two','zwei']],
-                    values:[null]
+                    differences:[
+                        {pos:1, keys:['two','zwei']},
+                    ]
                 }
             },
             opts:{unordered:false}
         },
         {a: [{a:'A', b:'B', c:'C'}]         , b:[{a:'a', b:'B', c:'C'}]         , expect:{array:{object:{a:discrepances('A','a')} }}                        },
+        {   a:{one:'un', two:'dos'},
+            b:{one:'ein', zwei:'dos'},
+            expect:{
+                object:{
+                    differences:[
+                        {pos:0, values:discrepances('un','ein')},
+                        {pos:1, keys:['two','zwei']},
+                    ]
+                }
+            },
+            opts:{unordered:false}
+        },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
