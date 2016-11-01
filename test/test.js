@@ -64,6 +64,16 @@ describe("discrepances", function(){
             },
             opts:{unordered:false}
         },
+        {   a:{one:'un', two:'dos'},
+            b:{one:'un', zwei:'dos'},
+            expect:{
+                object:{
+                    differences:[1],
+                    keys:[['two','zwei']]
+                }
+            },
+            opts:{unordered:false}
+        },
         {a: {name:'Hommer', age:40}         , b:{name:'Hommer'}                 , expect:{object:{"age":{"onlyLeft":40}}}},
         {a: {name:'Hommer'}                 , b:{name:'Hommer', age:40}         , expect:{object:{"age":{"onlyRight":40}}}},
     ];
