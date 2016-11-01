@@ -104,6 +104,7 @@ describe("discrepances", function(){
             },
             opts:{unordered:false}
         },
+        {a: new Example({uno:1})            , b: {uno:1}           , expect: null, opts:{duckTyping:true}            },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
