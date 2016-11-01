@@ -53,7 +53,8 @@ describe("discrepances", function(){
         {a: {0:1, length:1}                 , b: {0:1,1:2,length:2}             , expect: {object:{1:{onlyRight:2}, length:discrepances(1,2)}}              },
         {a: {last:'Simpson', name:'Bart'}   , b:{last:'Simpson', name:'Lisa'}   , expect: {object:{"name":discrepances("Bart","Lisa")}}                     },
         {a: {name:'Hommer', last:'Simpson'} , b:{last:'Simpson', name:'Hommer'} , expect: null                                                              },
-        {   a:{one:'un', two:'dos'},
+        {a: {name:'Hommer', age:40}         , b:{name:'Hommer'}                 , expect:{object:{"age":{"onlyLeft":40}}}                                   },
+        {a: {name:'Hommer'}                 , b:{name:'Hommer', age:40}         , expect:{object:{"age":{"onlyRight":40}}}                                  },{   a:{one:'un', two:'dos'},
             b:{two:'dos', one:'un'},
             expect:{
                 object:{
@@ -69,13 +70,12 @@ describe("discrepances", function(){
             expect:{
                 object:{
                     differences:[1],
-                    keys:[['two','zwei']]
+                    keys:[['two','zwei']],
+                    values:[null]
                 }
             },
             opts:{unordered:false}
         },
-        {a: {name:'Hommer', age:40}         , b:{name:'Hommer'}                 , expect:{object:{"age":{"onlyLeft":40}}}                                   },
-        {a: {name:'Hommer'}                 , b:{name:'Hommer', age:40}         , expect:{object:{"age":{"onlyRight":40}}}                                  },
         {a: [{a:'A', b:'B', c:'C'}]         , b:[{a:'a', b:'B', c:'C'}]         , expect:{array:{object:{a:discrepances('A','a')} }}                        },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
