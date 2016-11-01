@@ -57,7 +57,8 @@
     "test-cli-h": "node server/karma-server.js --karma karma.conf.js",
     "test-cli-ff": "npm run test-cli -- --browsers Firefox",
     "test-cli-saf": "npm run test-cli -- --browsers Safari",
-    "report": "istanbul report"
+    "report": "istanbul report",
+    "all": "npm test && npm run test-cli && npm run test-cov && npm run report && qa-control . -v"
   },
   "qa-control": {
     "package-version": "0.3.0",
