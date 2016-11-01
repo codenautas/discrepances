@@ -4,10 +4,24 @@
 Muestra las diferencias entre distintos tipos de valores
 
 <!--lang:en--]
-Shows discrepances between different values
+Shows diferences between different types of values
 
 [!--lang:*-->
 
+<!--lang:es-->
+## Uso
+<!--lang:en--]
+## Use
+[!--lang:*-->
+```js
+var discrepances = require('discrepances');
+
+var a:{x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}, 
+    b:{x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]};
+    
+console.log(JSON.stringify(discrepances(a, b)));
+
+```
 
 <!--lang:es-->
 # Instalación

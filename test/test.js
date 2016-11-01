@@ -115,8 +115,9 @@ describe("discrepances", function(){
          },
          opts:{unordered:false}
         },
-        {a:new Example({uno:1})            , b:{uno:1}                        , expect:null, opts:{duckTyping:true}          },
-        {a:7                               , b:"7"               , expect:null, opts:{autoTypeCast:true}                     },
+        {a:new Example({uno:1})            , b:{uno:1}           , expect:null                  , opts:{duckTyping:true}     },
+        {a:7                               , b:"7"               , expect:null                  , opts:{autoTypeCast:true}   },
+        {a:7                               , b:"7"               , expect:discrepances(7, "7")  , opts:{autoTypeCast:false}  },
         {a:76                              , b:"76"              , expect:discrepances(76, "76"),                            },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
