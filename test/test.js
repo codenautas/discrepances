@@ -90,6 +90,19 @@ describe("discrepances", function(){
             },
             opts:{unordered:false}
         },
+        {   a:{one:'un' , two:'dos' , cuatro:'cuatro', tres:'tres'},
+            b:{one:'ein', zwei:'dos', cuatro:'cuatro', drei:'three'},
+            expect:{
+                object:{
+                    differences:[
+                        {pos:0, values:discrepances('un','ein')},
+                        {pos:1, keys:['two','zwei']},
+                        {pos:3, keys:['tres','drei'], values:discrepances('tres','three')},
+                    ]
+                }
+            },
+            opts:{unordered:false}
+        },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
