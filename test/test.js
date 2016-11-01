@@ -50,7 +50,8 @@ describe("discrepances", function(){
         {a: new Example({uno:1})            , b: new Example({uno:1})           , expect: null                                                              },
         {a: new Example({uno:1})            , b: {uno:1}                        , expect: {classes:['Example', 'Object']}                                   },
         {a: new Example({uno:1})            , b: new Example({uno:2})           , expect: {object:{"uno":discrepances(1,2)}}                                },
-        {a: {0:1, length:1}                 , b: {0:1,1:2,length:2}             , expect: {object:{1:{onlyRight:2}, length:discrepances(1,2)}}              },
+        // {a: {0:1, length:1}                 , b: {0:1,1:2,length:2}             , expect: {object:{1:{onlyRight:2}, length:discrepances(1,2)}}              },
+        {a: {0:1, length:1}                 , b: {0:1,1:2,length:2}             , expect: {object:{length:discrepances(1,2), 1:{onlyRight:2}}}              },
         {a: {last:'Simpson', name:'Bart'}   , b:{last:'Simpson', name:'Lisa'}   , expect: {object:{"name":discrepances("Bart","Lisa")}}                     },
         {a: {name:'Hommer', last:'Simpson'} , b:{last:'Simpson', name:'Hommer'} , expect: null                                                              },
         {a: {name:'Hommer', age:40}         , b:{name:'Hommer'}                 , expect:{object:{"age":{"onlyLeft":40}}}                                   },
@@ -134,7 +135,7 @@ describe("discrepances", function(){
             var res = discrepances(fixture.a, fixture.b, fixture.opts);
             var resJ = JSON.stringify(res);
             var resJA = JSON4all.stringify(res);
-            if(resJA !== expJA) { console.log("RES", resJA); console.log("EXP", expJA); }
+            if(resJA !== expJA) { console.log("RES", resJA); console.log("EXP", expJA); console.log(" JS", resJ); }
             expect(res).to.eql(fixture.expect);
             expect(resJ).to.eql(expJ);
             expect(resJA).to.eql(expJA);
