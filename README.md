@@ -1,13 +1,13 @@
 # discrepances
-Shows diferences between different types of values
+Shows differences between different values
 
 
 ## Use
 ```js
 var discrepances = require('discrepances');
 
-var a:{x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]},
-    b:{x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]};
+var a={x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]};
+var b={x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]};
 
 console.log(JSON.stringify(discrepances(a, b)));
 

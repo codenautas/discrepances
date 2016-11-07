@@ -1,10 +1,10 @@
 <!--multilang v0 es:LEEME.md en:README.md -->
 # discrepances
 <!--lang:es-->
-Muestra las diferencias entre distintos tipos de valores
+Muestra las diferencias entre distintos valores de distintos tipos
 
 <!--lang:en--]
-Shows diferences between different types of values
+Shows differences between different values
 
 [!--lang:*-->
 
@@ -16,8 +16,8 @@ Shows diferences between different types of values
 ```js
 var discrepances = require('discrepances');
 
-var a:{x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}, 
-    b:{x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]};
+var a={x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}; 
+var b={x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]};
     
 console.log(JSON.stringify(discrepances(a, b)));
 
