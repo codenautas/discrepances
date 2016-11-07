@@ -13,6 +13,9 @@ function Example(ini){
 }
 Example.prototype.protoFunction = function(){};
 
+var no = new NonObject(7);
+no.__proto__=null;
+
 describe("discrepances", function(){
     // maximo numero de columnas: 128
     var fixtures = [
@@ -119,6 +122,9 @@ describe("discrepances", function(){
         {a:7                               , b:"7"               , expect:null                  , opts:{autoTypeCast:true}   },
         {a:7                               , b:"7"               , expect:discrepances(7, "7")  , opts:{autoTypeCast:false}  },
         {a:76                              , b:"76"              , expect:discrepances(76, "76"),                            },
+        {skip:true, a:{a:7}                , b:no                , expect:null                  , opts:{duckTyping:true}     },
+        {skip:true, a:{a:7}                , b:no                , expect:{classes:['Object', '#null__proto__']}             },
+        {skip:true, a:false                , b:true              , expect:{values:[false, true]}                             },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
@@ -163,3 +169,7 @@ describe("discrepances", function(){
         });
     });
 });
+
+function NonObject(a){
+    this.a=a;
+}
