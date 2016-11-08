@@ -125,6 +125,7 @@ describe("discrepances", function(){
         {a:{a:7}                           , b:no                , expect:null                  , opts:{duckTyping:true}     },
         {a:{a:7}                           , b:no                , expect:{classes:['Object', '#null__proto__']}             },
         {a:false                           , b:true              , expect:{values:[false, true]}                             },
+        {a:undefined                       , b:undefined         , expect:null                                               },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
