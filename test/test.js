@@ -16,6 +16,10 @@ Example.prototype.protoFunction = function(){};
 var no = new NonObject(7);
 no.__proto__=null;
 
+function f1(a) { return a; }
+function f2(a) { return a; }
+function f3(b) { return b; }
+
 describe("discrepances", function(){
     // maximo numero de columnas: 128
     var fixtures = [
@@ -126,6 +130,9 @@ describe("discrepances", function(){
         {a:{a:7}                           , b:no                , expect:{classes:['Object', '#null__proto__']}             },
         {a:false                           , b:true              , expect:{values:[false, true]}                             },
         {a:undefined                       , b:undefined         , expect:null                                               },
+        {a:f1                              , b:f1                , expect:null                                               },
+        {a:function(a){}                   , b:function(a){}     , expect:null                                               },
+        {a:f1                              , b:f2                , expect:discrepances(f1.toString(), f2.toString())         },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
