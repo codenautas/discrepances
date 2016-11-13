@@ -27,8 +27,8 @@ describe("discrepances", function(){
         {a:4                     , b:5                  , expect:{difference:-1             , values:[4, 5]}                 },
         {a:"4"                   , b:4                  , expect:{types:['string', 'number'], values:["4", 4]}               },
         {a:null                  , b:0                  , expect:{types:['null'  , 'number'], values:[null, 0]}              },
-        // Emilio: mira este en el que comente el values. Entiendo que no va
-        {a:fechaActual           , b:/a/                , expect:{classes:['Date', 'RegExp']/*, values:[fechaActual, /a/]*/} },
+        {a:fechaActual           , b:/a/                , expect:{classes:['Date', 'RegExp'], values:[fechaActual, /a/]}
+         ,skip: "los values sí van porque ambos son clases conocidas que no son contenedores" },
         {a:[1,2,3,4,5]           , b:[1,2,33,4,5,6]     , expect:{array:{length:discrepances(5,6), 2:discrepances(3,33)}}    },
         {a:[1,2,3,4,5]           , b:[1,2,3,4,5]        , expect:null                                                        },
         {a:{x:1, y:2}            , b:{y:3, z:{zz:3}}    ,
@@ -64,6 +64,7 @@ describe("discrepances", function(){
         {a:undefined             , b:false              , expect:{types:['undefined', 'boolean'], values:[undefined, false]} },
         {a:new Example({uno:1})  , b:new Example({uno:1})           , expect:null                                            },
         {a:new Example({uno:1})  , b:{uno:1}                        , expect:{classes:['Example', 'Object']}                 },
+        {skip:'#5', a:new Example({uno:1})  , b:[1,2]                          , expect:{classes:['Example', 'Array']}                  },
         {a:new Example({uno:1})  , b:new Example({uno:2})           , expect:{object:{"uno":discrepances(1,2)}}              },
         {a:{0:1, length:1}       , b:{0:1,1:2,length:2}             ,
          expect:{object:{length:discrepances(1,2), 1:{onlyRight:2}}}
@@ -134,6 +135,8 @@ describe("discrepances", function(){
         {a:f1                              , b:f1                , expect:null                                               },
         {a:function(a){}                   , b:function(a){}     , expect:null                                               },
         {a:f1                              , b:f2                , expect:discrepances(f1.toString(), f2.toString())         },
+        {a:{a:'a', b:[]}, b:{a:'A', b:discrepances.test(Array.isArray)}, expect:{object:{a:discrepances('a', 'A')}}          },
+        {a:{a:'a', b:'b'}, b:{a:'a', b:discrepances.test(Array.isArray)}, expect:{object:{b:{fail:'isArray'}}}               },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
