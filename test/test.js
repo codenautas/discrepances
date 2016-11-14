@@ -149,6 +149,9 @@ describe("discrepances", function(){
         {a:f1                              , b:f2                , expect:discrepances(f1.toString(), f2.toString())         },
         {a:{a:'a', b:[]}, b:{a:'A', b:discrepances.test(Array.isArray)}, expect:{object:{a:discrepances('a', 'A')}}          },
         {a:{a:'a', b:'b'}, b:{a:'a', b:discrepances.test(Array.isArray)}, expect:{object:{b:{fail:'isArray'}}}               },
+        {a:{a:'A',b:'B',c:'C'}             , b:{e:'E',f:'F',a:'A'},
+         expect:{object:{'b':{'onlyLeft':'B'}, 'c':{'onlyLeft':'C'}, 'e':{'onlyRight':'E'}, 'f':{'onlyRight':'F'}}}
+        },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
