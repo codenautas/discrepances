@@ -28,7 +28,8 @@ describe("discrepances", function(){
         {a:"4"                   , b:4                  , expect:{types:['string', 'number'], values:["4", 4]}               },
         {a:null                  , b:0                  , expect:{types:['null'  , 'number'], values:[null, 0]}              },
         {a:fechaActual           , b:/a/                , expect:{classes:['Date', 'RegExp'], values:[fechaActual, /a/]}
-         ,skip: "los values sí van porque ambos son clases conocidas que no son contenedores" },
+         ,skip: "los values sí van porque ambos son clases conocidas que no son contenedores"
+         },
         {a:[1,2,3,4,5]           , b:[1,2,33,4,5,6]     , expect:{array:{length:discrepances(5,6), 2:discrepances(3,33)}}    },
         {a:[1,2,3,4,5]           , b:[1,2,3,4,5]        , expect:null                                                        },
         {a:{x:1, y:2}            , b:{y:3, z:{zz:3}}    ,
@@ -57,7 +58,7 @@ describe("discrepances", function(){
                     m:{array:{length: discrepances(2,1)}}
                 }}}}
             }
-         } , skip: "#3"
+         }// , skip: "#3"
         },
         {a:["one"]               , b:["one",2]          , expect:{array:{length:discrepances(1,2)}}                          },
         {a:undefined             , b:1                  , expect:{types:['undefined', 'number'], values:[undefined, 1]}      },
