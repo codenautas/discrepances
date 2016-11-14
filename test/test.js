@@ -95,6 +95,17 @@ describe("discrepances", function(){
          },
          opts:{unordered:false}
         },
+        {a:{one:'un', two:'dos', three:3, vier:4}   ,b:{one:'un', zwei:'dos', drei:3, vier:4}          ,
+         expect:{
+             object:{
+                 differences:[
+                     {pos:1, keys:['two','zwei']},
+                     {pos:2, keys:['three','drei']},
+                 ]
+             }
+         },
+         opts:{unordered:false}
+        },
         {a:[{a:'A', b:'B', c:'C'}]         , b:[{a:'a', b:'B', c:'C'}]        ,
          expect:{array:{0:{object:{a:discrepances('A','a')} }}}
         },
