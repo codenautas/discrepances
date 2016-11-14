@@ -100,6 +100,9 @@ describe("discrepances", function(){
         {a:[{a:'A', b:'B', c:'C'}]         , b:[{a:'a', b:'B', c:'C'}]        ,
          expect:{array:{0:{object:{a:discrepances('A','a')} }}}
         },
+        {a:[{a:'A', b:'B', c:'C'},1]         , b:[{a:'a', b:'B', c:'C'},2]    ,
+         expect:{array:{0:{object:{a:discrepances('A','a')} },1:discrepances(1,2)}}
+        },
         {a:{one:'un', two:'dos'}           , b:{one:'ein', zwei:'dos'}        ,
          expect:{
              object:{
