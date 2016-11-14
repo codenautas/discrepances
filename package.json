@@ -1,7 +1,7 @@
 {
   "name": "discrepances",
   "description": "show discrepances in several flavors",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "repository": "codenautas/discrepances",
   "license": "MIT",
