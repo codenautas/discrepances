@@ -65,7 +65,7 @@ describe("discrepances", function(){
         {a:undefined             , b:false              , expect:{types:['undefined', 'boolean'], values:[undefined, false]} },
         {a:new Example({uno:1})  , b:new Example({uno:1})           , expect:null                                            },
         {a:new Example({uno:1})  , b:{uno:1}                        , expect:{classes:['Example', 'Object']}                 },
-        {skip:'#5', a:new Example({uno:1})  , b:[1,2]                          , expect:{classes:['Example', 'Array']}                  },
+        {a:new Example({uno:1})  , b:[1,2]                          , expect:{classes:['Example', 'Array']}                  },
         {a:new Example({uno:1})  , b:new Example({uno:2})           , expect:{object:{"uno":discrepances(1,2)}}              },
         {a:{0:1, length:1}       , b:{0:1,1:2,length:2}             ,
          expect:{object:{length:discrepances(1,2), 1:{onlyRight:2}}}
