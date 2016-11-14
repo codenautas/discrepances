@@ -58,7 +58,7 @@ describe("discrepances", function(){
                     m:{array:{length: discrepances(2,1)}}
                 }}}}
             }
-         }// , skip: "#3"
+         }
         },
         {a:["one"]               , b:["one",2]          , expect:{array:{length:discrepances(1,2)}}                          },
         {a:undefined             , b:1                  , expect:{types:['undefined', 'number'], values:[undefined, 1]}      },
@@ -99,7 +99,6 @@ describe("discrepances", function(){
         },
         {a:[{a:'A', b:'B', c:'C'}]         , b:[{a:'a', b:'B', c:'C'}]        ,
          expect:{array:{0:{object:{a:discrepances('A','a')} }}}
-         ,skip: "#3"
         },
         {a:{one:'un', two:'dos'}           , b:{one:'ein', zwei:'dos'}        ,
          expect:{
