@@ -3,6 +3,9 @@
 var JSON4all = require('json4all');
 var expect = require('expect.js');
 var discrepances = require('../lib/discrepances.js');
+var auditCopy = require('audit-copy');
+
+var assert = require('assert');
 
 var fechaActual = new Date();
 
@@ -197,9 +200,11 @@ describe("discrepances", function(){
             return true;
         }
         it("fixture: "+(fixture.isDate?'Date: ':'')+JSON.stringify(fixture), function(){
+            var auditCopyFixture = auditCopy.inObject(fixture);
             var expJ = JSON.stringify(fixture.expect);
             var expJA = JSON4all.stringify(fixture.expect);
             var res = discrepances(fixture.a, fixture.b, fixture.opts);
+            assert.deepStrictEqual(auditCopy.inObject(fixture),auditCopyFixture);
             var resJ = JSON.stringify(res);
             var resJA = JSON4all.stringify(res);
             if(resJA !== expJA) { console.log("RES", resJA); console.log("EXP", expJA); console.log(" JS", resJ); }
