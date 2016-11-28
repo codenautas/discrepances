@@ -7,6 +7,8 @@ var auditCopy = require('audit-copy');
 
 var assert = require('assert');
 
+var equalComparation = assert.deepStrictEqual || assert.deepEqual;
+
 var fechaActual = new Date();
 
 function Example(ini){
@@ -204,7 +206,7 @@ describe("discrepances", function(){
             var expJ = JSON.stringify(fixture.expect);
             var expJA = JSON4all.stringify(fixture.expect);
             var res = discrepances(fixture.a, fixture.b, fixture.opts);
-            assert.deepStrictEqual(auditCopy.inObject(fixture),auditCopyFixture);
+            equalComparation(auditCopy.inObject(fixture),auditCopyFixture);
             var resJ = JSON.stringify(res);
             var resJA = JSON4all.stringify(res);
             if(resJA !== expJA) { console.log("RES", resJA); console.log("EXP", expJA); console.log(" JS", resJ); }
