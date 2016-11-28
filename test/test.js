@@ -13,6 +13,12 @@ function Example(ini){
 }
 Example.prototype.protoFunction = function(){};
 
+function anonymous(object){
+    return new function(object){
+        for(var name in object) this[name]=object[name];
+    }(object);
+}
+
 var no = new NonObject(7);
 no.__proto__=null;
 
@@ -136,6 +142,13 @@ describe("discrepances", function(){
          },
          opts:{unordered:false}
         },
+        {a:anonymous({z:7})                , b:anonymous({z:7})  , expect:null             , opts:{distinguishAnonymous:true}},
+        {a:anonymous({z:7}), 
+         b:{z:7}, 
+         expect:{classes:['anonymous','Object']},
+         opts:{distinguishAnonymous:true}
+        },
+        {a:anonymous({z:7})                , b:{z:7}             , expect:null                  },
         {a:new Example({uno:1})            , b:{uno:1}           , expect:null                  , opts:{duckTyping:true}     },
         {a:7                               , b:"7"               , expect:null                  , opts:{autoTypeCast:true}   },
         {a:7                               , b:"7"               , expect:discrepances(7, "7")  , opts:{autoTypeCast:false}  },
