@@ -33,6 +33,12 @@ function f1(a) { return a; }
 function f2(a) { return a; }
 function f3(b) { return b; }
 
+function touchedDate(d){
+    var date = new Date(d);
+    date.touched = true;
+    return date;
+}
+
 describe("discrepances", function(){
     // maximo numero de columnas: 128
     var fixtures = [
@@ -172,6 +178,7 @@ describe("discrepances", function(){
         {a:{a:'A',b:'B',c:'C'}             , b:{e:'E',f:'F',a:'A'},
          expect:{object:{'b':{'onlyLeft':'B'}, 'c':{'onlyLeft':'C'}, 'e':{'onlyRight':'E'}, 'f':{'onlyRight':'F'}}}
         },
+        {a:new Date("2017-01-02")          , b:touchedDate("2017-01-02")  , expect:{date: {touched: {onlyRight: true}}}      },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
@@ -191,8 +198,8 @@ describe("discrepances", function(){
          difference:'1992-12-05 00:00:00.100 != 1992-12-06 15:25:00.200 => -39:25:00.100'
         },
         {a:new Date(1462670136585+100250)  , b:new Date(1462670136585)        , difference:'00:01:40.250'},
-        {skip:'#10', a:new Date("2017-01-02")          , b:new Date("2017-01-02")         , difference:null          },
-        {skip:'#10', a:date.iso("2017-01-02")          , b:date.iso("2017-01-02")         , difference:null          },
+        {a:new Date("2017-01-02")          , b:new Date("2017-01-02")         , difference:null          },
+        {a:date.iso("2017-01-02")          , b:date.iso("2017-01-02")         , difference:null          },
     ];
     dateFixtures.forEach(function(fixture) {
         fixtures.push({
