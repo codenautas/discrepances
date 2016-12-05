@@ -183,8 +183,8 @@ describe("discrepances", function(){
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
         {a:fechaActual                     , b:fechaActual                    , difference: null                             },
-        {skip:'#9', a:new Date(10511,1,3)             , b:new Date(10511,1,4)            , difference:'10511-02-03 != 10511-02-04'      },
-        {skip:'#9', a:new Date(511,1,3)               , b:new Date(511,1,4)              , difference:'511-02-03 != 511-02-04'          },
+        {a:new Date(10511,1,3)             , b:new Date(10511,1,4)            , difference:'10511-02-03 != 10511-02-04'      },
+        {a:new Date(511,1,3)               , b:new Date(511,1,4)              , difference:'511-02-03 != 511-02-04'          },
         {a:new Date(2011,1,3)              , b:new Date(2011,1,4)             , difference:'2011-02-03 != 2011-02-04'        },
         {a:new Date(1992,11,5)             , b:new Date(1935,8,1)             , difference:'1992-12-05 != 1935-09-01'        },
         {a:new Date(1992,11,5,10,0,0)      , b:new Date(1935,8,1,15,0,0)      ,
