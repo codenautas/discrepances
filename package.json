@@ -1,7 +1,7 @@
 {
   "name": "discrepances",
   "description": "show discrepances in several flavors",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "repository": "codenautas/discrepances",
   "license": "MIT",
@@ -40,10 +40,10 @@
     "karma-safari-launcher": "~1.0.0",
     "istanbul-middleware": "~0.2.2",
     "mocha": "~3.2.0",
-    "phantomjs-prebuilt": "~2.1.13",
+    "phantomjs-prebuilt": "~2.1.14",
     
     "audit-copy": "~0.0.2",
-    "json4all": "~0.2.2",
+    "json4all": "~0.2.4",
     "require-bro": "~0.1.4"
   },
   "engines": {
