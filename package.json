@@ -18,7 +18,7 @@
   "main": "lib/discrepances.js",
   "files": ["lib"],
   "dependencies": {
-    "best-globals": "~0.7.0"
+    "best-globals": "~0.7.1"
   },
   "devDependencies": {
     "body-parser": "~1.15.2",
