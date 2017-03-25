@@ -15,6 +15,26 @@ var equalComparation = assert.deepStrictEqual || assert.deepEqual;
 
 var date = require('best-globals').date;
 
+JSON4all.addType(Error,{
+    construct: function construct(value){ 
+        return new Error(value.message); 
+    }, 
+    deconstruct: function deconstruct(o){
+        return {message:o.message};
+    },
+});
+
+JSON4all.addType(Example,{
+    construct: function construct(value){ 
+        // return new Example(value.o); 
+        return null;
+    }, 
+    deconstruct: function deconstruct(o){
+        return {Example:true};
+    },
+});
+
+
 var fechaActual = new Date();
 
 function Example(ini){
@@ -44,6 +64,8 @@ function touchedDate(d){
 }
 
 describe("discrepances", function(){
+    var unoMoreInfo=new Error("uno");
+    unoMoreInfo.more="more info";
     // maximo numero de columnas: 128
     var fixtures = [
         {a:4                     , b:4                  , expect:null               ,expectDis:{}                            },
@@ -182,6 +204,13 @@ describe("discrepances", function(){
          expect:{object:{'b':{'onlyLeft':'B'}, 'c':{'onlyLeft':'C'}, 'e':{'onlyRight':'E'}, 'f':{'onlyRight':'F'}}}
         },
         {a:new Date("2017-01-02")          , b:touchedDate("2017-01-02")  , expect:{date: {touched: {onlyRight: true}}}      },
+        {a:new Error("uno")                , b:new Error("uno")           , expect:null },
+        {a:new Example({message:"uno"})    , b:new Error("uno")           , 
+         expect:{classes:['Example','Error'], values:[new Example({message:"uno"}), new Error("uno")]} },
+        {a:new Error("uno")                , b:new Error("dos")           , expect:{error:{message:idiscrepances("uno", "dos")} }},
+        {a:new Error("uno")                , b:unoMoreInfo                , expect:{error:{more:{types:["undefined","string"],values:[undefined, "more info"]}}} },
+        {a:new Error("uno")                , b:new TypeError("uno")       , expect:{classes:["Error" , "TypeError"]} },
+        {a:new Error("uno")     ,c:'4'     , b:"Error: uno"               , expect:{types:["object", "string"]} },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
