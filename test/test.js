@@ -262,6 +262,24 @@ describe("using in testing", function(){
             n: 1.23456
         });
     });
+    it("pass and don't fail in circular objects", function(done){
+        var o={
+            d: new Date(2010,10,10),
+            r: /123/,
+            s: "hello",
+            n: 1.23456,
+            o2: {}
+        };
+        o.o2.o=o;
+        discrepances.showAndThrow(o,{
+            d: new Date(2010,10,10),
+            r: /123/,
+            s: "hello",
+            n: 1.23456,
+            o2: {o: o}
+        });
+        done();
+    });
     it("throw Exception when objects have discrepances", function(done){
         var d=new Date(2010,10,10);
         d.more='more info';
