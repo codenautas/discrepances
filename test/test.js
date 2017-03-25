@@ -3,6 +3,10 @@
 var JSON4all = require('json4all');
 var expect = require('expect.js');
 var discrepances = require('../lib/discrepances.js');
+var idiscrepances = discrepances.nestedObject;
+var fdiscrepances = discrepances.flatten;
+var showAndThrow = discrepances.showAndThrow;
+
 var auditCopy = require('audit-copy');
 
 var assert = require('assert');
@@ -42,15 +46,15 @@ function touchedDate(d){
 describe("discrepances", function(){
     // maximo numero de columnas: 128
     var fixtures = [
-        {a:4                     , b:4                  , expect:null                                                        },
+        {a:4                     , b:4                  , expect:null               ,expectDis:{}                            },
         {a:4                     , b:5                  , expect:{difference:-1             , values:[4, 5]}                 },
         {a:"4"                   , b:4                  , expect:{types:['string', 'number'], values:["4", 4]}               },
         {a:null                  , b:0                  , expect:{types:['null'  , 'number'], values:[null, 0]}              },
         {a:fechaActual           , b:/a/                , expect:{classes:['Date', 'RegExp'], values:[fechaActual, /a/]}     },
-        {a:[1,2,3,4,5]           , b:[1,2,33,4,5,6]     , expect:{array:{length:discrepances(5,6), 2:discrepances(3,33)}}    },
+        {a:[1,2,3,4,5]           , b:[1,2,33,4,5,6]     , expect:{array:{length:idiscrepances(5,6), 2:idiscrepances(3,33)}}    },
         {a:[1,2,3,4,5]           , b:[1,2,3,4,5]        , expect:null                                                        },
         {a:{x:1, y:2}            , b:{y:3, z:{zz:3}}    ,
-         expect:{object:{x:{onlyLeft:1}, y:discrepances(2,3), z:{onlyRight:{zz:3}}}}
+         expect:{object:{x:{onlyLeft:1}, y:idiscrepances(2,3), z:{onlyRight:{zz:3}}}}
         },
         {a:{x:1, y:2, z:[3]}     , b:{x:1, y:2, z:[3]}  , expect:null                                                        },
         {a:"un string"           , b:"un string"        , expect:null                                                        },
@@ -72,72 +76,68 @@ describe("discrepances", function(){
             object: {
                 d: { difference: -40, values: [4, 44]},
                 e: { array:{0:{ object:{
-                    m:{array:{length: discrepances(2,1)}}
+                    m:{array:{length: idiscrepances(2,1)}}
                 }}}}
             }
+         },         
+         expectDis:{
+            '.d': { difference: -40, values: [4, 44]},
+            '.e[0].m[length]': idiscrepances(2,1)
          }
         },
-        {a:["one"]               , b:["one",2]          , expect:{array:{length:discrepances(1,2)}}                          },
+        {a:["one"]               , b:["one",2]          , expect:{array:{length:idiscrepances(1,2)}}                          },
         {a:undefined             , b:1                  , expect:{types:['undefined', 'number'], values:[undefined, 1]}      },
         {a:undefined             , b:false              , expect:{types:['undefined', 'boolean'], values:[undefined, false]} },
         {a:new Example({uno:1})  , b:new Example({uno:1})           , expect:null                                            },
         {a:new Example({uno:1})  , b:{uno:1}                        , expect:{classes:['Example', 'Object']}                 },
         {a:new Example({uno:1})  , b:[1,2]                          , expect:{classes:['Example', 'Array']}                  },
-        {a:new Example({uno:1})  , b:new Example({uno:2})           , expect:{object:{"uno":discrepances(1,2)}}              },
+        {a:new Example({uno:1})  , b:new Example({uno:2})           , expect:{object:{"uno":idiscrepances(1,2)}}              },
         {a:{0:1, length:1}       , b:{0:1,1:2,length:2}             ,
-         expect:{object:{length:discrepances(1,2), 1:{onlyRight:2}}}
+         expect:{object:{length:idiscrepances(1,2), 1:{onlyRight:2}}}
         },
         {a:{last:'Simpson', name:'Bart'}   , b:{last:'Simpson', name:'Lisa'}  ,
-         expect:{object:{"name":discrepances("Bart","Lisa")}}
+         expect:{object:{"name":idiscrepances("Bart","Lisa")}}
         },
         {a:{name:'Hommer', last:'Simpson'} , b:{last:'Simpson', name:'Hommer'}, expect:null                                  },
         {a:{name:'Hommer', age:40}         , b:{name:'Hommer'}                , expect:{object:{"age":{"onlyLeft":40}}}      },
         {a:{name:'Hommer'}                 , b:{name:'Hommer', age:40}        , expect:{object:{"age":{"onlyRight":40}}}     },
         {a:{one:'un', two:'dos'}           , b:{two:'dos', one:'un'},
          expect:{
-             object:{
-                 differences:[
-                     {pos:0, keys:['one','two'], values:discrepances('un','dos')},
-                     {pos:1, keys:['two','one'], values:discrepances('dos','un')},
-                 ]
+             ord_object:{
+                 0:{keys:['one','two'], values:idiscrepances('un','dos')},
+                 1:{keys:['two','one'], values:idiscrepances('dos','un')},
              }
          },
          opts:{unordered:false}
         },
         {a:{one:'un', two:'dos'}           ,b:{one:'un', zwei:'dos'}          ,
          expect:{
-             object:{
-                 differences:[
-                     {pos:1, keys:['two','zwei']},
-                 ]
+             ord_object:{
+                 1:{keys:['two','zwei']},
              }
          },
          opts:{unordered:false}
         },
         {a:{one:'un', two:'dos', three:3, vier:4}   ,b:{one:'un', zwei:'dos', drei:3, vier:4}          ,
          expect:{
-             object:{
-                 differences:[
-                     {pos:1, keys:['two','zwei']},
-                     {pos:2, keys:['three','drei']},
-                 ]
+             ord_object:{
+                 1:{keys:['two','zwei']},
+                 2:{keys:['three','drei']},
              }
          },
          opts:{unordered:false}
         },
         {a:[{a:'A', b:'B', c:'C'}]         , b:[{a:'a', b:'B', c:'C'}]        ,
-         expect:{array:{0:{object:{a:discrepances('A','a')} }}}
+         expect:{array:{0:{object:{a:idiscrepances('A','a')} }}}
         },
         {a:[{a:'A', b:'B', c:'C'},1]         , b:[{a:'a', b:'B', c:'C'},2]    ,
-         expect:{array:{0:{object:{a:discrepances('A','a')} },1:discrepances(1,2)}}
+         expect:{array:{0:{object:{a:idiscrepances('A','a')} },1:idiscrepances(1,2)}}
         },
         {a:{one:'un', two:'dos'}           , b:{one:'ein', zwei:'dos'}        ,
          expect:{
-             object:{
-                 differences:[
-                     {pos:0, values:discrepances('un','ein')},
-                     {pos:1, keys:['two','zwei']},
-                 ]
+             ord_object:{
+                 0:{values:idiscrepances('un','ein')},
+                 1:{keys:['two','zwei']},
              }
          },
          opts:{unordered:false}
@@ -145,15 +145,18 @@ describe("discrepances", function(){
         {a:{one:'un' , two:'dos' , cuatro:'cuatro', tres:'tres'},
          b:{one:'ein', zwei:'dos', cuatro:'cuatro', drei:'three'},
          expect:{
-             object:{
-                 differences:[
-                     {pos:0, values:discrepances('un','ein')},
-                     {pos:1, keys:['two','zwei']},
-                     {pos:3, keys:['tres','drei'], values:discrepances('tres','three')},
-                 ]
+             ord_object:{
+                 0:{values:idiscrepances('un','ein')},
+                 1:{keys:['two','zwei']},
+                 3:{keys:['tres','drei'], values:idiscrepances('tres','three')},
              }
          },
-         opts:{unordered:false}
+         opts:{unordered:false},
+         expectDis:{
+             "{0}":{values:idiscrepances('un','ein')},
+             "{1}":{keys:['two','zwei']},
+             "{3}":{keys:['tres','drei'], values:idiscrepances('tres','three')},
+         }
         },
         {a:anonymous({z:7})                , b:anonymous({z:7})  , expect:null             , opts:{distinguishAnonymous:true}},
         {a:anonymous({z:7}), 
@@ -164,16 +167,16 @@ describe("discrepances", function(){
         {a:anonymous({z:7})                , b:{z:7}             , expect:null                  },
         {a:new Example({uno:1})            , b:{uno:1}           , expect:null                  , opts:{duckTyping:true}     },
         {a:7                               , b:"7"               , expect:null                  , opts:{autoTypeCast:true}   },
-        {a:7                               , b:"7"               , expect:discrepances(7, "7")  , opts:{autoTypeCast:false}  },
-        {a:76                              , b:"76"              , expect:discrepances(76, "76"),                            },
+        {a:7                               , b:"7"               , expect:idiscrepances(7, "7")  , opts:{autoTypeCast:false}  },
+        {a:76                              , b:"76"              , expect:idiscrepances(76, "76"),                            },
         {a:{a:7}                           , b:no                , expect:null                  , opts:{duckTyping:true}     },
         {a:{a:7}                           , b:no                , expect:{classes:['Object', '#null__proto__']}             },
         {a:false                           , b:true              , expect:{values:[false, true]}                             },
         {a:undefined                       , b:undefined         , expect:null                                               },
         {a:f1                              , b:f1                , expect:null                                               },
         {a:function(a){}                   , b:function(a){}     , expect:null                                               },
-        {a:f1                              , b:f2                , expect:discrepances(f1.toString(), f2.toString())         },
-        {a:{a:'a', b:[]}, b:{a:'A', b:discrepances.test(Array.isArray)}, expect:{object:{a:discrepances('a', 'A')}}          },
+        {a:f1                              , b:f2                , expect:idiscrepances(f1.toString(), f2.toString())         },
+        {a:{a:'a', b:[]}, b:{a:'A', b:discrepances.test(Array.isArray)}, expect:{object:{a:idiscrepances('a', 'A')}}          },
         {a:{a:'a', b:'b'}, b:{a:'a', b:discrepances.test(Array.isArray)}, expect:{object:{b:{fail:'isArray'}}}               },
         {a:{a:'A',b:'B',c:'C'}             , b:{e:'E',f:'F',a:'A'},
          expect:{object:{'b':{'onlyLeft':'B'}, 'c':{'onlyLeft':'C'}, 'e':{'onlyRight':'E'}, 'f':{'onlyRight':'F'}}}
@@ -214,11 +217,11 @@ describe("discrepances", function(){
             delete fixture.skip;
             return true;
         }
-        it("fixture: "+(fixture.isDate?'Date: ':'')+JSON.stringify(fixture), function(){
+        it("internal fixture: "+(fixture.isDate?'Date: ':'')+JSON.stringify(fixture), function(){
             var auditCopyFixture = auditCopy.inObject(fixture);
             var expJ = JSON.stringify(fixture.expect);
             var expJA = JSON4all.stringify(fixture.expect);
-            var res = discrepances(fixture.a, fixture.b, fixture.opts);
+            var res = idiscrepances(fixture.a, fixture.b, fixture.opts);
             equalComparation(auditCopy.inObject(fixture),auditCopyFixture);
             var resJ = JSON.stringify(res);
             var resJA = JSON4all.stringify(res);
@@ -227,6 +230,62 @@ describe("discrepances", function(){
             expect(resJ).to.eql(expJ);
             expect(resJA).to.eql(expJA);
         });
+        if(fixture.expectDis){
+            it("discrepances fixture: "+(fixture.isDate?'Date: ':'')+JSON.stringify(fixture), function(){
+                var auditCopyFixture = auditCopy.inObject(fixture);
+                var expJ = JSON.stringify(fixture.expectDis);
+                var expJA = JSON4all.stringify(fixture.expectDis);
+                var res = fdiscrepances(fixture.a, fixture.b, fixture.opts);
+                equalComparation(auditCopy.inObject(fixture),auditCopyFixture);
+                var resJ = JSON.stringify(res);
+                var resJA = JSON4all.stringify(res);
+                if(resJA !== expJA) { console.log("RES", resJA); console.log("EXP", expJA); console.log(" JS", resJ); }
+                expect(res).to.eql(fixture.expectDis);
+                expect(resJ).to.eql(expJ);
+                expect(resJA).to.eql(expJA);
+            });
+        }
+    });
+});
+
+describe("using in testing", function(){
+    it("pass when objects don't have discrepances", function(){
+        discrepances.showAndThrow({
+            d: new Date(2010,10,10),
+            r: /123/,
+            s: "hello",
+            n: 1.23456
+        },{
+            d: new Date(2010,10,10),
+            r: /123/,
+            s: "hello",
+            n: 1.23456
+        });
+    });
+    it("throw Exception when objects have discrepances", function(done){
+        var d=new Date(2010,10,10);
+        d.more='more info';
+        try{
+            discrepances.showAndThrow({
+                d: d,
+                r: /123/,
+                s: "hello",
+                n: 1.23456
+            },{
+                d: new Date(2010,10,10),
+                r: /123/,
+                s: "hello",
+                n: 1.23456
+            });
+            done(new Error("Must throw error inside showAndThrow"));
+        }catch(err){
+            console.log(err);
+            if(err.message.match(/discrepances in /)){
+                done();
+            }else{
+                done(new Error("Must throw other Error showAndThrow. Not: "+err));
+            }
+        }
     });
 });
 
