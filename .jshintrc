@@ -2,6 +2,7 @@
     "asi": false,
     "forin": true,
     "curly": true,
+    "eqnull": true,
     "node": true,
     "strict": "global",
     "predef": [ "module" ]

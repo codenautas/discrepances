@@ -18,7 +18,7 @@ console.log(JSON.stringify(discrepances(a, b)));
 $ npm install discrepances
 ```
 
-![designing](https://img.shields.io/badge/stability-designing-red.svg)
+![extending](https://img.shields.io/badge/stability-extending-orange.svg)
 [![npm-version](https://img.shields.io/npm/v/discrepances.svg)](https://npmjs.org/package/discrepances)
 [![downloads](https://img.shields.io/npm/dm/discrepances.svg)](https://npmjs.org/package/discrepances)
 [![build](https://img.shields.io/travis/codenautas/discrepances/master.svg)](https://travis-ci.org/codenautas/discrepances)
