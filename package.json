@@ -1,7 +1,7 @@
 {
   "name": "discrepances",
   "description": "show discrepances in several flavors",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "repository": "codenautas/discrepances",
   "license": "MIT",
@@ -18,14 +18,14 @@
   "main": "lib/discrepances.js",
   "files": ["lib"],
   "dependencies": {
-    "best-globals": "~0.7.1"
+    "best-globals": "~0.8.0"
   },
   "devDependencies": {
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "expect.js": "~0.3.1",
     "express": "~4.15.2",
-    "express-session": "~1.15.1",
+    "express-session": "~1.15.2",
     "express-useragent": "~1.0.7",
     "istanbul": "~0.4.5",
     "karma": "~1.5.0",
@@ -43,7 +43,7 @@
     "phantomjs-prebuilt": "~2.1.14",
     
     "audit-copy": "~0.0.5",
-    "json4all": "~0.3.0",
+    "json4all": "~0.3.2",
     "require-bro": "~0.1.4"
   },
   "engines": {
