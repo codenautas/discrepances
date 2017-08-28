@@ -80,14 +80,17 @@ describe("discrepances", function(){
         },
         {a:{x:1, y:2, z:[3]}     , b:{x:1, y:2, z:[3]}  , expect:null                                                        },
         {a:"un string"           , b:"un string"        , expect:null                                                        },
-        {a:"un negro pez"        , b:"un blanco pez"    ,
-         expect:{differences: ['negro', 'blanco', {pos:3}], values:["un negro pez", "un blanco pez"]}
+        {a:"un gris pez"         , b:"un blanco pez"    ,
+         expect:{differences: ['gris', 'blanco', {pos:3, rPos:-4}], values:["un gris pez", "un blanco pez"]}
         },
-        {a:"un pez negro"        , b:"un pez blanco"    ,
-         expect:{differences: ['negro', 'blanco', {pos:7}], values:["un pez negro", "un pez blanco"]}
+        {a:"un pez gris"         , b:"un pez blanco"    ,
+         expect:{differences: ['gris', 'blanco', {pos:7}], values:["un pez gris", "un pez blanco"]}
         },
         {a:"negro el ocho"       , b:"rojo el ocho"     ,
-         expect:{differences: ['negro', 'rojo'  , {pos:0}], values:["negro el ocho", "rojo el ocho"]}
+         expect:{differences: ['negr', 'roj'  , {pos:0, rPos:-9}], values:["negro el ocho", "rojo el ocho"]}
+        },
+        {a:'2017-12-23 13:40:00.000', b:'2017-12-23 13:40:00',
+         expect:{differences:[".000","",{pos:19}],values:["2017-12-23 13:40:00.000","2017-12-23 13:40:00"]}
         },
         {a:null                  , b:undefined          , expect:{types:['null', 'undefined'], values:[null, undefined]}     },
         {a:{a:7, b:[]}           , b:fechaActual        , expect:{classes:['Object', 'Date']}                                },
