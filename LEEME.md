@@ -13,14 +13,93 @@ Shows differences between different values
 <!--lang:en--]
 ## Use
 [!--lang:*-->
+
 ```js
 var discrepances = require('discrepances');
 
 var a={x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}; 
 var b={x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]};
-    
-console.log(JSON.stringify(discrepances(a, b)));
 
+var detectedDiscrepances = discrepances.nestedObject(a,b)
+if(detectedDiscrepances){
+    console.dir(detectedDiscrepances, {depth:9});
+}
+/*
+{ 
+  object:{ 
+    d:{ difference: -40, values: [ 4, 44 ] },
+    e:{ 
+      array:{
+        '0':{ 
+          object:{ 
+            m:{ 
+              array:{ length:{ difference: 1, values: [ 2, 1 ] } } 
+            } 
+          }
+        }
+      }
+    }
+  }
+}
+*/
+var detectedDiscrepances = discrepances.flatten(a,b)
+if(detectedDiscrepances){
+    console.log(detectedDiscrepances);
+}
+/*
+{ 
+  '.d': { difference: -40, values: [ 4, 44 ] },
+  '.e[0].m[length]': { difference: 1, values: [ 2, 1 ] } 
+}
+*/
+```
+
+# API
+
+## discrepances.nestedObject(a,b[, opts])
+<!--lang:es-->
+Detecta discrepancias entre los objetos a y b. 
+
+Devuelve un objeto descriptivo con estructura similar a los objetos a y b 
+donde solo están las "ramas diferentes y la descrpición de su diferencia".
+
+Si no hay discrepancias devuelve `null`.
+<!--lang:en--]
+(see spanish)
+[!--lang:*-->
+
+## discrepances.flatten(a,b[, opts])
+<!--lang:es-->
+Detecta discrepancias entre los objetos a y b. 
+
+Devuelve un objeto descriptivo simple 
+que tiene en las claves una descripción del camino a la diferencia
+y en el valor la descripción de la diferencia.
+
+Si no hay discrepancias devuelve `null`.
+<!--lang:en--]
+(see spanish)
+[!--lang:*-->
+
+## discrepances.showAndThrow(a, b[, opts])
+<!--lang:es-->
+Controla que no haya discrepancias entre los objetos a y b,
+si la hay lanza una excepción y muestra las discrepancias en un `console.log`
+
+Está diseñado para usar dentro de los test automáticos (ej: con `mocha`);
+<!--lang:en--]
+(see spanish)
+[!--lang:*-->
+
+```js
+var discrepances = require('discrepances');
+
+var a={x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}; 
+var b={x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]};
+
+it("compares a with b", function(){
+    discrepances.showAndThrow(a,b,{context:'this message'})
+});
 ```
 
 <!--lang:es-->
