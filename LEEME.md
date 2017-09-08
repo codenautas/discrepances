@@ -98,7 +98,7 @@ var a={x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]};
 var b={x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]};
 
 it("compares a with b", function(){
-    discrepances.showAndThrow(a,b,{context:'this message'})
+    discrepances.showAndThrow(a,b,{showContext:'this message'})
 });
 ```
 
