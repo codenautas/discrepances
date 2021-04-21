@@ -1,7 +1,7 @@
 {
   "name": "discrepances",
   "description": "show discrepances in several flavors",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "repository": "codenautas/discrepances",
   "license": "MIT",
@@ -21,32 +21,32 @@
     "lib"
   ],
   "dependencies": {
-    "best-globals": "~0.10.15"
+    "best-globals": "~0.10.31"
   },
   "devDependencies": {
-    "body-parser": "~1.18.3",
-    "cookie-parser": "~1.4.4",
+    "body-parser": "~1.19.0",
+    "cookie-parser": "~1.4.5",
     "expect.js": "~0.3.1",
-    "express": "~4.16.4",
-    "express-session": "~1.15.6",
-    "express-useragent": "~1.0.12",
+    "express": "~4.17.1",
+    "express-session": "~1.17.1",
+    "express-useragent": "~1.0.15",
     "istanbul": "~0.4.5",
-    "karma": "~4.0.1",
-    "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage": "~1.1.2",
+    "karma": "~6.3.2",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.0.3",
     "karma-coverage-html-index-reporter": "~1.0.2",
     "karma-expect": "~1.1.3",
-    "karma-firefox-launcher": "~1.1.0",
+    "karma-firefox-launcher": "~2.1.0",
     "karma-ie-launcher": "~1.0.0",
-    "karma-mocha": "~1.3.0",
+    "karma-mocha": "~2.0.1",
     "karma-phantomjs-launcher": "~1.0.4",
     "karma-safari-launcher": "~1.0.0",
     "istanbul-middleware": "~0.2.2",
-    "mocha": "~6.0.2",
+    "mocha": "~8.3.2",
     "phantomjs-prebuilt": "~2.1.16",
     "audit-copy": "~0.0.5",
-    "json4all": "~0.3.10",
-    "require-bro": "~0.1.13"
+    "json4all": "~1.1.0",
+    "require-bro": "~0.2.2"
   },
   "engines": {
     "node": ">= 0.12"
