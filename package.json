@@ -1,7 +1,7 @@
 {
   "name": "discrepances",
   "description": "show discrepances in several flavors",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "repository": "codenautas/discrepances",
   "license": "MIT",
@@ -24,13 +24,14 @@
     "best-globals": "^1.1.0"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.15.7",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "expect.js": "^0.3.1",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "express-useragent": "^1.0.15",
-    "istanbul": "^0.4.5",
     "karma": "^6.4.1",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "^2.2.0",
@@ -39,31 +40,49 @@
     "karma-firefox-launcher": "^2.1.2",
     "karma-ie-launcher": "^1.0.0",
     "karma-mocha": "^2.0.1",
-    "karma-phantomjs-launcher": "^1.0.4",
     "karma-safari-launcher": "^1.0.0",
-    "istanbul-middleware": "^0.2.2",
     "mocha": "^10.2.0",
-    "phantomjs-prebuilt": "^2.1.16",
+    "nyc": "^15.1.0",
+    "typescript": "^5.0.2",
     "audit-copy": "^0.1.0",
     "json4all": "^1.2.1",
-    "require-bro": "^0.3.0"
+    "require-bro": "^0.3.0"    
   },
   "engines": {
     "node": ">= 14.x"
   },
   "scripts": {
     "test": "mocha --reporter spec --bail --check-leaks test/",
-    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-ci": "nyc node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "test-cov": "nyc mocha test/",
+    "test-cov3": "nyc node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-cov2": "node node_modules/nyc/bin/nyc node_modules/mocha/bin/_mocha --exit --check-leaks test/",
     "start": "node example/server.js",
     "test-cli": "node server/karma-server.js --karma karma.conf.js --single-run",
     "test-cli-h": "node server/karma-server.js --karma karma.conf.js",
     "test-cli-ff": "npm run test-cli -- --browsers Firefox",
     "test-cli-saf": "npm run test-cli -- --browsers Safari",
-    "report": "istanbul report",
+    "report": "nyc report",
     "all": "npm test && npm run test-cov && npm run report && qa-control . -v"
   },
-  "qa-control": {
+  "nyc": {
+    "exclude": [
+        "test"
+    ],
+    "reporter": [
+        "html",
+        "lcov",
+        "text-summary"
+    ],
+    "extension": [
+        ".js",
+        ".ts"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "check-coverage": true
+},
+"qa-control": {
     "package-version": "0.3.0",
     "coverage": 95,
     "run-in": "both",

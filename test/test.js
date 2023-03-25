@@ -2,10 +2,16 @@
 
 var JSON4all = require('json4all');
 var expect = require('expect.js');
-var discrepances = require('../lib/discrepances.js');
+var discrepances = require('../lib/discrepances');
 var idiscrepances = discrepances.nestedObject;
 var fdiscrepances = discrepances.flatten;
 var showAndThrow = discrepances.showAndThrow;
+
+var WT = { // Without Types
+    idiscrepances(a,b,opts){
+        return idiscrepances(a,b,opts);
+    }
+}
 
 var auditCopy = require('audit-copy');
 
@@ -51,6 +57,7 @@ function anonymous(object){
 }
 
 var no = new NonObject(7);
+// @ts-expect-error this may not exists
 no.__proto__=null;
 
 function f1(a) { return a; }
@@ -59,12 +66,14 @@ function f3(b) { return b; }
 
 function touchedDate(d){
     var date = new Date(d);
+    // @ts-expect-error date with added attribute
     date.touched = true;
     return date;
 }
 
 describe("discrepances", function(){
     var unoMoreInfo=new Error("uno");
+    // @ts-expect-error Error with added attribute
     unoMoreInfo.more="more info";
     // maximo numero de columnas: 128
     var fixtures = [
@@ -192,8 +201,8 @@ describe("discrepances", function(){
         {a:anonymous({z:7})                , b:{z:7}             , expect:null                  },
         {a:new Example({uno:1})            , b:{uno:1}           , expect:null                  , opts:{duckTyping:true}     },
         {a:7                               , b:"7"               , expect:null                  , opts:{autoTypeCast:true}   },
-        {a:7                               , b:"7"               , expect:idiscrepances(7, "7")  , opts:{autoTypeCast:false}  },
-        {a:76                              , b:"76"              , expect:idiscrepances(76, "76"),                            },
+        {a:7                               , b:"7"               , expect:WT.idiscrepances(7, "7"), opts:{autoTypeCast:false}},
+        {a:76                              , b:"76"              , expect:WT.idiscrepances(76, "76"),                        },
         {a:{a:7}                           , b:no                , expect:null                  , opts:{duckTyping:true}     },
         {a:{a:7}                           , b:no                , expect:{classes:['Object', '#null__proto__']}             },
         {a:false                           , b:true              , expect:{values:[false, true]}                             },
@@ -213,7 +222,7 @@ describe("discrepances", function(){
         {a:new Error("uno")                , b:new Error("dos")           , expect:{error:{message:idiscrepances("uno", "dos")} }},
         {a:new Error("uno")                , b:unoMoreInfo                , expect:{error:{more:{types:["undefined","string"],values:[undefined, "more info"]}}} },
         {a:new Error("uno")                , b:new TypeError("uno")       , expect:{classes:["Error" , "TypeError"]} },
-        {a:new Error("uno")     ,c:'4'     , b:"Error: uno"               , expect:{types:["object", "string"]} },
+        {a:new Error("uno")                , b:"Error: uno"               , expect:{types:["object", "string"]} },
     ];
     // esto es para evitar que values:[] tenga fechas distintas a 'a' y 'b'
     var dateFixtures = [
@@ -238,6 +247,7 @@ describe("discrepances", function(){
     ];
     dateFixtures.forEach(function(fixture) {
         fixtures.push({
+            // @ts-expect-error isDate is not deduced
             isDate:true,
             skip: fixture.skip, a:fixture.a, b:fixture.b,
             expect:(fixture.difference ? {difference: fixture.difference, values:[fixture.a, fixture.b]} : null)
@@ -314,6 +324,7 @@ describe("using in testing", function(){
     });
     it("throw Exception when objects have discrepances", function(done){
         var d=new Date(2010,10,10);
+        // @ts-expect-error "more" is not in Date
         d.more='more info';
         try{
             discrepances.showAndThrow({
@@ -342,3 +353,18 @@ describe("using in testing", function(){
 function NonObject(a){
     this.a=a;
 }
+
+describe("discrepances in types", function(){
+    it("checks string vs regexp", function(){
+        var a = {
+            name: 'the name',
+            value: 3
+        }
+        var b = {
+            name: discrepances.test(x => /the/.test(x)),
+            value: 3
+        }
+        var result = fdiscrepances(a, b)
+        assert.deepEqual(result, {})
+    })
+})

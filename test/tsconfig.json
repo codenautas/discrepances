@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "checkJs": true,
+        "types": ["mocha"],
+        "target": "ES2019",
+        "lib": ["ES2020", "dom"],
+        "typeRoots" : ["node_modules/@types", "node_modules/types.d.ts/modules"],
+        "moduleResolution": "node"
+    }
+}
