@@ -1,7 +1,7 @@
 {
   "name": "discrepances",
   "description": "show discrepances in several flavors",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "repository": "codenautas/discrepances",
   "license": "MIT",
@@ -51,7 +51,7 @@
     "typescript": "^6.0.3",
     "audit-copy": "^0.1.1",
     "json4all": "^1.4.2",
-    "require-bro": "^0.3.4"    
+    "require-bro": "^0.3.4"
   },
   "engines": {
     "node": ">= 14.x"
@@ -72,22 +72,22 @@
   },
   "nyc": {
     "exclude": [
-        "test"
+      "test"
     ],
     "reporter": [
-        "html",
-        "lcov",
-        "text-summary"
+      "html",
+      "lcov",
+      "text-summary"
     ],
     "extension": [
-        ".js",
-        ".ts"
+      ".js",
+      ".ts"
     ],
     "sourceMap": true,
     "instrument": true,
     "check-coverage": true
-},
-"qa-control": {
+  },
+  "qa-control": {
     "package-version": "0.3.0",
     "coverage": 95,
     "run-in": "both",
