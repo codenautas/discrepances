@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(Get-ChildItem -Path \"c:\\\\hecho\\\\npm\\\\discrepances\\\\.github\\\\\" -Recurse -File | Select-Object -ExpandProperty FullName)"
+    ]
+  }
+}

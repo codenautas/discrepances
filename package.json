@@ -20,18 +20,23 @@
   "files": [
     "lib"
   ],
+  "overrides": {
+    "diff": "^8.0.2",
+    "serialize-javascript": "^7.0.0",
+    "uuid": "^14.0.0"
+  },
   "dependencies": {
-    "best-globals": "^2.0.1"
+    "best-globals": "^2.1.0"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^24.0.3",
-    "body-parser": "^2.2.0",
+    "@types/node": "^25.6.0",
+    "body-parser": "^2.2.2",
     "cookie-parser": "^1.4.7",
     "expect.js": "^0.3.1",
-    "express": "^5.1.0",
-    "express-session": "^1.18.1",
-    "express-useragent": "^1.0.15",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-useragent": "^2.1.0",
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "^2.2.1",
@@ -41,12 +46,12 @@
     "karma-ie-launcher": "^1.0.0",
     "karma-mocha": "^2.0.1",
     "karma-safari-launcher": "^1.0.0",
-    "mocha": "^11.7.0",
-    "nyc": "^17.1.0",
-    "typescript": "^5.8.3",
+    "mocha": "^11.7.5",
+    "nyc": "^18.0.0",
+    "typescript": "^6.0.3",
     "audit-copy": "^0.1.1",
-    "json4all": "^1.4.0",
-    "require-bro": "^0.3.1"    
+    "json4all": "^1.4.2",
+    "require-bro": "^0.3.4"    
   },
   "engines": {
     "node": ">= 14.x"
