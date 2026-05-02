@@ -3,7 +3,10 @@
   "description": "show discrepances in several flavors",
   "version": "0.2.13",
   "author": "Codenautas <codenautas@googlegroups.com>",
-  "repository": "codenautas/discrepances",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codenautas/discrepances.git"
+  },
   "license": "MIT",
   "contributors": [
     {

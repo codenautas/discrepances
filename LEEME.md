@@ -7,6 +7,22 @@ Muestra las diferencias entre distintos valores de distintos tipos
 Shows differences between different values
 
 [!--lang:*-->
+[![build](https://github.com/codenautas/discrepances/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/codenautas/discrepances/actions/workflows/build-and-test.yml)
+
+<!-- cucardas -->
+![extending](https://img.shields.io/badge/stability-extending-orange.svg)
+[![npm-version](https://img.shields.io/npm/v/discrepances.svg)](https://npmjs.org/package/discrepances)
+[![downloads](https://img.shields.io/npm/dm/discrepances.svg)](https://npmjs.org/package/discrepances)
+[![build](https://github.com/codenautas/discrepances/actions/workflows/node.js.yml/badge.svg)](https://github.com/codenautas/discrepances/actions/workflows/node.js.yml)
+[![coverage](https://img.shields.io/coveralls/codenautas/discrepances/master.svg)](https://coveralls.io/r/codenautas/discrepances)
+[![outdated-deps](https://img.shields.io/github/issues-search/codenautas/discrepances?color=9cf&label=outdated-deps&query=is%3Apr%20author%3Aapp%2Fdependabot%20is%3Aopen)](https://github.com/codenautas/discrepances/pulls/app%2Fdependabot)
+
+<!--multilang buttons-->
+
+idioma: ![castellano](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-es.png)
+también disponible en:
+[![inglés](https://raw.githubusercontent.com/codenautas/multilang/master/img/lang-en.png)](README.md)
+
 
 <!--lang:es-->
 ## Uso
