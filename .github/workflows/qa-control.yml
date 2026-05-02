@@ -12,5 +12,3 @@ permissions:
 jobs:
   publish:
     uses: codenautas/.github/.github/workflows/qa-control.yaml@main
-    with:
-      node_version: '24'
