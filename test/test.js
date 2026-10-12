@@ -22,19 +22,19 @@ var equalComparation = assert.deepStrictEqual || assert.deepEqual;
 var date = require('best-globals').date;
 
 JSON4all.addType(Error,{
-    construct: function construct(value){ 
-        return new Error(value.message); 
-    }, 
+    construct: function construct(value){
+        return new Error(value.message);
+    },
     deconstruct: function deconstruct(o){
         return {message:o.message};
     },
 });
 
 JSON4all.addType(Example,{
-    construct: function construct(value){ 
-        // return new Example(value.o); 
+    construct: function construct(value){
+        // return new Example(value.o);
         return null;
-    }, 
+    },
     deconstruct: function deconstruct(o){
         return {Example:true};
     },
@@ -75,6 +75,8 @@ describe("discrepances", function(){
     var unoMoreInfo=new Error("uno");
     // @ts-expect-error Error with added attribute
     unoMoreInfo.more="more info";
+    // created in other line: in Firefox the errors have fileName and lineNumber, they must not be compared
+    var unoFromOtherLine=new Error("uno");
     // maximo numero de columnas: 128
     var fixtures = [
         {a:4                     , b:4                  , expect:null               ,expectDis:{}                            },
@@ -104,8 +106,8 @@ describe("discrepances", function(){
         {a:null                  , b:undefined          , expect:{types:['null', 'undefined'], values:[null, undefined]}     },
         {a:{a:7, b:[]}           , b:fechaActual        , expect:{classes:['Object', 'Date']}                                },
         {a:{a:7, b:[]}           , b:"one string"       , expect:{types:['object', 'string']}                                },
-        {a:{x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]}, 
-         b:{x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]}, 
+        {a:{x:1, y:2, z:[3], d:4,  e:[{j:3, k:4, m:['a', 'b']}]},
+         b:{x:1, y:2, z:[3], d:44, e:[{j:3, k:4, m:['a']     }]},
          expect:{
             object: {
                 d: { difference: -40, values: [4, 44]},
@@ -113,7 +115,7 @@ describe("discrepances", function(){
                     m:{array:{length: idiscrepances(2,1)}}
                 }}}}
             }
-         },         
+         },
          expectDis:{
             '.d': { difference: -40, values: [4, 44]},
             '.e[0].m[length]': idiscrepances(2,1)
@@ -193,8 +195,8 @@ describe("discrepances", function(){
          }
         },
         {a:anonymous({z:7})                , b:anonymous({z:7})  , expect:null             , opts:{distinguishAnonymous:true}},
-        {a:anonymous({z:7}), 
-         b:{z:7}, 
+        {a:anonymous({z:7}),
+         b:{z:7},
          expect:{classes:['anonymous','Object']},
          opts:{distinguishAnonymous:true}
         },
@@ -217,7 +219,8 @@ describe("discrepances", function(){
         },
         {a:new Date("2017-01-02")          , b:touchedDate("2017-01-02")  , expect:{date: {touched: {onlyRight: true}}}      },
         {a:new Error("uno")                , b:new Error("uno")           , expect:null },
-        {a:new Example({message:"uno"})    , b:new Error("uno")           , 
+        {a:new Error("uno")                , b:unoFromOtherLine           , expect:null },
+        {a:new Example({message:"uno"})    , b:new Error("uno")           ,
          expect:{classes:['Example','Error'], values:[new Example({message:"uno"}), new Error("uno")]} },
         {a:new Error("uno")                , b:new Error("dos")           , expect:{error:{message:idiscrepances("uno", "dos")} }},
         {a:new Error("uno")                , b:unoMoreInfo                , expect:{error:{more:{types:["undefined","string"],values:[undefined, "more info"]}}} },

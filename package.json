@@ -26,50 +26,40 @@
   "overrides": {
     "diff": "^8.0.2",
     "serialize-javascript": "^7.0.0",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.0",
+    "@istanbuljs/load-nyc-config": {
+      "js-yaml": "^4.1.0"
+    }
   },
   "dependencies": {
-    "best-globals": "^2.1.0"
+    "best-globals": "^2.2.3"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@types/node": "^25.6.0",
-    "body-parser": "^2.2.2",
-    "cookie-parser": "^1.4.7",
+    "@types/node": "^26.6.5",
     "expect.js": "^0.3.1",
-    "express": "^5.2.1",
-    "express-session": "^1.19.0",
-    "express-useragent": "^2.1.0",
-    "karma": "^6.4.4",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-coverage": "^2.2.1",
-    "karma-coverage-html-index-reporter": "^1.0.2",
-    "karma-expect": "^1.1.3",
-    "karma-firefox-launcher": "^2.1.3",
-    "karma-ie-launcher": "^1.0.0",
-    "karma-mocha": "^2.0.1",
-    "karma-safari-launcher": "^1.0.0",
-    "mocha": "^11.7.5",
+    "mocha": "^12.0.3",
     "nyc": "^18.0.0",
-    "typescript": "^6.0.3",
-    "audit-copy": "^0.1.1",
-    "json4all": "^1.4.2",
-    "require-bro": "^0.3.4"
+    "typescript": "^5.9.3",
+    "audit-copy": "^0.2.1",
+    "json4all": "^1.4.5",
+    "qa-control": "^0.12.2",
+    "require-bro": "^0.4.1",
+    "server4test": "^2.0.0-rc.1"
   },
   "engines": {
     "node": ">= 14.x"
   },
   "scripts": {
     "test": "mocha --reporter spec --bail --check-leaks test/",
-    "test-ci": "nyc node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "test-ci": "nyc --silent mocha --reporter spec --check-leaks test/ && npm run test-navigator && nyc report",
     "test-cov": "nyc mocha test/",
-    "test-cov3": "nyc node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-    "test-cov2": "node node_modules/nyc/bin/nyc node_modules/mocha/bin/_mocha --exit --check-leaks test/",
+    "test-cov3": "nyc mocha --reporter dot --check-leaks test/",
+    "test-cov2": "nyc mocha --exit --check-leaks test/",
     "start": "node example/server.js",
-    "test-cli": "node server/karma-server.js --karma karma.conf.js --single-run",
-    "test-cli-h": "node server/karma-server.js --karma karma.conf.js",
-    "test-cli-ff": "npm run test-cli -- --browsers Firefox",
-    "test-cli-saf": "npm run test-cli -- --browsers Safari",
+    "build-test": "nyc instrument --delete lib local-instrumented/lib",
+    "test-navigator": "npm run build-test && server4test --run-browser chrome,firefox",
+    "test-navigator-inf": "npm run build-test && server4test",
     "report": "nyc report",
     "all": "npm test && npm run test-cov && npm run report && qa-control . -v"
   },
@@ -91,10 +81,12 @@
     "check-coverage": true
   },
   "qa-control": {
-    "package-version": "0.3.0",
+    "gha": "all",
     "coverage": 95,
     "run-in": "both",
-    "stability": "extending",
-    "type": "lib"
+    "type": "lib",
+    "silenced": [
+      "eslint_warnings_in_file_1"
+    ]
   }
 }
