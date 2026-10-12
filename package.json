@@ -45,7 +45,7 @@
     "json4all": "^1.4.5",
     "qa-control": "^0.12.2",
     "require-bro": "^0.4.1",
-    "server4test": "^2.0.0-rc.1"
+    "server4test": "^2.0.0-rc.2"
   },
   "engines": {
     "node": ">= 14.x"
